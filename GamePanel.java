@@ -16,7 +16,7 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         setPreferredSize(new Dimension((int) (GRID_SIZE * 1.5) * 20, (int) (GRID_SIZE * 1.5) * 20));
-        setBackground(Color.WHITE);
+        setBackground(Color.black);
         setFocusable(true);
 
         snake = new Snake();
@@ -83,15 +83,23 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Draw snake
-        g.setColor(Color.BLACK);
-        for (Point p : snake.getBody()) {
-            g.fillRect(p.x * GRID_SIZE, p.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        for (int row = 0; row < getHeight() / GRID_SIZE; row++) {
+            for (int col = 0; col < getWidth() / GRID_SIZE; col++) {
+                // Tính toán màu cho ô hiện tại
+                Color color = (row + col) % 2 == 0 ? Color.GRAY : Color.lightGray;
+
+                // Đặt màu cho ô hiện tại
+                g.setColor(color);
+
+                // Vẽ ô hiện tại
+                g.fillRect(col * GRID_SIZE, row * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+            }
         }
+        // Draw snake
+        snake.draw(g);
 
         // Draw food
-        g.setColor(Color.BLACK);
-        g.fillRect(food.getPosition().x * GRID_SIZE, food.getPosition().y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+      food.draw(g);
 
         // poin
         g.setColor(Color.BLACK);

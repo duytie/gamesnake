@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.*;
 
 public class Snake {
+    private static final int GRID_SIZE = 20;
     private final ArrayList<Point> body;
     private Direction direction;
 
@@ -43,7 +44,13 @@ public class Snake {
         Point tail = body.get(body.size() - 1);
         body.add(new Point(tail));
     }
-
+    public void draw(Graphics g) {
+        // hinh danh rắn
+        g.setColor(Color.green);
+        for (Point p : body) {
+            g.fillRect(p.x * GRID_SIZE, p.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        }
+    }
     public ArrayList<Point> getBody() {
         return body;
     }
