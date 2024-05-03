@@ -27,28 +27,31 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        if (snake.getDirection() != Direction.DOWN)
-                            snake.setDirection(Direction.UP);
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        if (snake.getDirection() != Direction.UP)
-                            snake.setDirection(Direction.DOWN);
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if (snake.getDirection() != Direction.RIGHT)
-                            snake.setDirection(Direction.LEFT);
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if (snake.getDirection() != Direction.LEFT)
-                            snake.setDirection(Direction.RIGHT);
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        if (!isRunning) {
-                            startGame();
-                        }
-                        break;
+                if (!snake.isMoving()) {
+                    int keyCode = e.getKeyCode();
+                    switch (keyCode) {
+                        case KeyEvent.VK_UP:
+                            if (snake.getDirection() != Direction.DOWN) {
+                                snake.setDirection(Direction.UP);
+                            }
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            if (snake.getDirection() != Direction.UP) {
+                                snake.setDirection(Direction.DOWN);
+                            }
+                            break;
+                        case KeyEvent.VK_LEFT:
+                            if (snake.getDirection() != Direction.RIGHT) {
+                                snake.setDirection(Direction.LEFT);
+                            }
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            if (snake.getDirection() != Direction.LEFT) {
+                                snake.setDirection(Direction.RIGHT);
+                            }
+                            break;
+                    }
+                    snake.setMoving(true);
                 }
             }
         });
@@ -86,7 +89,7 @@ public class GamePanel extends JPanel {
         for (int row = 0; row < getHeight() / GRID_SIZE; row++) {
             for (int col = 0; col < getWidth() / GRID_SIZE; col++) {
                 // Tính toán màu cho ô hiện tại
-                Color color = (row + col) % 2 == 0 ? Color.GRAY : Color.lightGray;
+                Color color = (row + col) % 2 == 0 ? Color.white : Color.lightGray;
 
                 // Đặt màu cho ô hiện tại
                 g.setColor(color);

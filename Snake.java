@@ -36,7 +36,7 @@ public class Snake {
             }
         }
         // Kiểm tra va chạm với biên của màn hình
-        return point.x < 0 || point.x >= GamePanel.GRID_SIZE || point.y < 0 || point.y >= GamePanel.GRID_SIZE;
+        return point.x < 0 || point.x >= GamePanel.GRID_SIZE || point.y < 0 || point.y >= GRID_SIZE;
     }
 
     public void grow() {
@@ -51,9 +51,6 @@ public class Snake {
             g.fillRect(p.x * GRID_SIZE, p.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
         }
     }
-    public ArrayList<Point> getBody() {
-        return body;
-    }
 
     public Point getHead() {
         return body.get(0);
@@ -65,5 +62,12 @@ public class Snake {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public boolean isMoving() {
+        return false;
+    }
+
+    public void setMoving(boolean b) {
     }
 }
