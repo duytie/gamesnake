@@ -7,9 +7,9 @@ public class Main {
     public static void main(String[] args) {
         try {
             SwingUtilities.invokeLater(() -> {
-                GameFrame gameFrame = new GameFrame(); // Khởi tạo GameFrame
+                GameFrame gameFrame = new GameFrame();
 
-                gameFrame.setVisible(true); // Hiển thị cửa sổ trò chơi
+                gameFrame.setVisible(true);
             });
         } catch (Exception e) {
             System.err.println("An error occurred while running the game: " + e.getMessage());

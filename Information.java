@@ -1,17 +1,13 @@
 package game;
 
-import java.util.Date;
-
 public class Information {
-    String id;
-    String ten,ngay;
-    String diem;
+    String time;
+    String score;
 
-    public Information(String id, String ngay, String diem, String ten) {
-        this.id = id;
-        this.ten = ten;
-        this.ngay = ngay;
-        this.diem = diem;
+    public Information(String time, String score) {
+
+        this.time = time;
+        this.score = score;
     }
 
 }

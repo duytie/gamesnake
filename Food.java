@@ -17,7 +17,7 @@ public class Food {
     }
     public void draw(Graphics g) {
         // Vẽ hình chữ nhật đại diện cho thức ăn
-        g.setColor(Color.red);
+        g.setColor(new Color(205 ,133, 63));
         int size = GamePanel.GRID_SIZE; // Kích thước hình tròn bằng kích thước của ô trên bảng
         int x = position.x * size ; // Đặt tọa độ x để căn giữa hình tròn trên ô
         int y = position.y * size ; // Đặt tọa độ y để căn giữa hình tròn trên ô

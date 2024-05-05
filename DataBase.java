@@ -1,31 +1,26 @@
 package game;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-
-import javax.swing.JLabel;
 
 //tao database mới  đi
 public class DataBase {
-    private String connectionUrl;
+    private final String connectionUrl;
 
     public DataBase() {
-        this.connectionUrl = "jdbc:sqlserver://192.168.43.24:1433;databaseName=player;user=sa;password=nghia;trustServerCertificate=true";
+        this.connectionUrl = "jdbc:sqlserver://192.168.0.2:1433;databaseName=DUYTIEN;user=sa;password=123456789;trustServerCertificate=true";
     }
 
-    public void addDataToDB(int ID,String UserName,  int Score,String Times ) {
+    public void addDataToDB( int Score,String Times ) {
         try (Connection con = DriverManager.getConnection(this.connectionUrl);
              Statement stmt = con.createStatement()) {
 
             String SQL =
-                    "INSERT INTO player (ID, UserName, Score, Times) VALUES ("+ ID  + ", '" + UserName + "', " + Score + ", '" + Times + "')";
+                    "INSERT INTO player ( Score, Times) VALUES (" + Score + ", '" + Times + "')";
             stmt.executeUpdate(SQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            System.out.printf("thanh cong");
             e.printStackTrace();
         }
     }
@@ -38,7 +33,7 @@ public class DataBase {
             ResultSet rs = stmt.executeQuery(SQL);
 
             while (rs.next()) { //them thong tin
-                arrInformation.add(new Information(rs.getString("ID"),rs.getString("UserName"),rs.getString("Score"),rs.getString("Times")));
+                arrInformation.add(new Information(rs.getString("Score"),rs.getString("Times")));
 
             }
         } catch (SQLException e) {
@@ -48,8 +43,9 @@ public class DataBase {
         return arrInformation;
     }
     public static void main(String[] args) {
+
         DataBase connect = new DataBase();
-        connect.addDataToDB(7, "user7", 20, "15-02-2024 15:11:21");
+        connect.addDataToDB(7,  "4");
         ArrayList<Information> arrInf = new  ArrayList<>();
         arrInf = connect.getDataFromDB();
         System.out.println(arrInf.size());

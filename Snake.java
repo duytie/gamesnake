@@ -36,7 +36,7 @@ public class Snake {
             }
         }
         // Kiểm tra va chạm với biên của màn hình
-        return point.x < 0 || point.x >= GamePanel.GRID_SIZE || point.y < 0 || point.y >= GRID_SIZE;
+        return point.x < 0 || point.x >= GamePanel.GRID_SIZE || point.y < 0 || point.y >= GamePanel.GRID_SIZE;
     }
 
     public void grow() {
@@ -46,10 +46,19 @@ public class Snake {
     }
     public void draw(Graphics g) {
         // hinh danh rắn
-        g.setColor(Color.green);
-        for (Point p : body) {
-            g.fillRect(p.x * GRID_SIZE, p.y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+        g.setColor(Color.WHITE);
+        g.fillRect(body.get(0).x * GRID_SIZE, body.get(0).y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
+
+        // Màu của các phần tử còn lại trong con rắn
+        g.setColor(new Color(0,255,255));
+        for (int i = 1; i < body.size(); i++) {
+            g.fillRect(body.get(i).x * GRID_SIZE, body.get(i).y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
         }
+        
+    }
+
+    public ArrayList<Point> getBody() {
+        return body;
     }
 
     public Point getHead() {
@@ -64,10 +73,5 @@ public class Snake {
         this.direction = direction;
     }
 
-    public boolean isMoving() {
-        return false;
-    }
 
-    public void setMoving(boolean b) {
-    }
 }
