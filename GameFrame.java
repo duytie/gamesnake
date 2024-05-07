@@ -68,7 +68,6 @@ public class GameFrame extends JFrame implements StartAppListener,GamePanelListe
         contentPane.validate();
         contentPane.repaint();
 
-
     }
     @Override
     public void onSelectExitFromHistory() {

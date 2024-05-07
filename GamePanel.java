@@ -88,6 +88,8 @@ public class GamePanel extends JPanel implements ActionListener {
         snake = new Snake();
         snake.setDirection(Direction.RIGHT);
         isRunning = true;
+        point = 0; // Đặt lại điểm số về 0
+        updateScore();
         timer.start();
         requestFocus();
     }
@@ -95,6 +97,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private void endGame() {
         timer.stop();
         isRunning = false;
+        Point snakeHead = snake.getHead();
+        System.out.println("Snake head coordinates: (" + snakeHead.x + ", " + snakeHead.y + ")");
         JOptionPane.showMessageDialog(this, "Game Over! Your Point: " + point);
         int option = JOptionPane.showConfirmDialog(this, "Do you want to play again?", "Game Over", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -132,6 +136,8 @@ public class GamePanel extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         g.drawString("point: " + point, 10, 20);
         pointButton.paint(g);
+
+
     }
 
     public void setGamePanelListener(GamePanelListener listener) {
@@ -150,13 +156,17 @@ public class GamePanel extends JPanel implements ActionListener {
             }
             if (snake.checkCollision(snake.getHead())) {
                 endGame();
+                return ;
             }
             repaint();
         }
         if (e.getSource() == exitButton) {
+            timer.stop();
+            isRunning = false ;
             if (listener != null) {
                 listener.onExitSelected();
             }
+            return;
         }
 
     }

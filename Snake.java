@@ -32,7 +32,7 @@ public class Snake {
                 newHead.x++;
                 break;
         }
-
+        System.out.println("New head position: (" + newHead.x + ", " + newHead.y + ")");
         body.add(0, newHead);
         body.remove(body.size() - 1);
     }
@@ -40,11 +40,16 @@ public class Snake {
     public boolean checkCollision(Point point) {
         for (int i = 1; i < body.size(); i++) {
             if (body.get(i).equals(point)) {
+
                 return true;
             }
         }
         // Kiểm tra va chạm với biên của màn hình
-        return point.x < 0 || point.x >= GamePanel.GRID_SIZE || point.y < 0 || point.y >= GamePanel.GRID_SIZE;
+        if (point.x < 0 || point.x >= 30   || point.y < 0 || point.y >= 30) {
+
+            return true;
+        }
+        return false ;
     }
 
 
@@ -64,7 +69,7 @@ public class Snake {
         for (int i = 1; i < body.size(); i++) {
             g.fillRect(body.get(i).x * GRID_SIZE, body.get(i).y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
         }
-        
+
     }
 
     public ArrayList<Point> getBody() {
