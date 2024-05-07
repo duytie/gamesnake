@@ -2,8 +2,6 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
-
-import game.StartAppPanel;
 public class GameFrame extends JFrame implements StartAppListener,GamePanelListener, HistoryListener {
     private GamePanel gamePanel;
     private JPanel contentPane;
@@ -84,6 +82,16 @@ public class GameFrame extends JFrame implements StartAppListener,GamePanelListe
         contentPane.repaint();
 
 
+    }
+    @Override
+    public void onGameEnd() {
+        System.out.println("Trò chơi đã kết thúc, chuyển về màn hình StartApp");
+        contentPane.removeAll();
+        StartAppPanel startApp = new StartAppPanel();
+        startApp.setStartAppListener(this);
+        contentPane.add(startApp, BorderLayout.CENTER);
+        contentPane.validate();
+        contentPane.repaint();
     }
 
     public static void main(String[] args) {

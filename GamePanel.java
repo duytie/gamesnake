@@ -19,8 +19,10 @@ public class GamePanel extends JPanel implements ActionListener {
     private JButton exitButton;
     private JButton pointButton;
 
+    private final DataBase dataBase; // Thêm đối tượng DataBase
+
     public GamePanel() {
-        setPreferredSize(new Dimension((int) (GRID_SIZE * 1.5) * 20, (int) (GRID_SIZE * 1.5) * 20));
+        setPreferredSize(new Dimension(600, 600));
         setBackground(new Color(105, 105 ,105));
         setFocusable(true);
 
@@ -42,39 +44,49 @@ public class GamePanel extends JPanel implements ActionListener {
         isRunning = false;
         point = 0;
 
+        dataBase = new DataBase(); // Khởi tạo đối tượng DataBase
+
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        if (snake.getDirection() != Direction.DOWN)
-                            snake.setDirection(Direction.UP);
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        if (snake.getDirection() != Direction.UP)
-                            snake.setDirection(Direction.DOWN);
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if (snake.getDirection() != Direction.RIGHT)
-                            snake.setDirection(Direction.LEFT);
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if (snake.getDirection() != Direction.LEFT)
-                            snake.setDirection(Direction.RIGHT);
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        if (!isRunning) {
-                            startGame();
+                public void keyPressed(KeyEvent e) {
+                    if (!snake.isMoving()) {
+                        int keyCode = e.getKeyCode();
+                        switch (keyCode) {
+                            case KeyEvent.VK_UP:
+                                if (snake.getDirection() != Direction.DOWN) {
+                                    snake.setDirection(Direction.UP);
+                                }
+                                break;
+                            case KeyEvent.VK_DOWN:
+                                if (snake.getDirection() != Direction.UP) {
+                                    snake.setDirection(Direction.DOWN);
+                                }
+                                break;
+                            case KeyEvent.VK_LEFT:
+                                if (snake.getDirection() != Direction.RIGHT) {
+                                    snake.setDirection(Direction.LEFT);
+                                }
+                                break;
+                            case KeyEvent.VK_RIGHT:
+                                if (snake.getDirection() != Direction.LEFT) {
+                                    snake.setDirection(Direction.RIGHT);
+                                }
+                                break;
+                            case KeyEvent.VK_SPACE:
+                                if (!isRunning) {
+                                    startGame();
+                                }
                         }
-                        break;
 
+                    }
                 }
-            }
+
         });
     }
 
     public void startGame() {
         snake = new Snake();
+        snake.setDirection(Direction.RIGHT);
         isRunning = true;
         timer.start();
         requestFocus();
@@ -90,7 +102,10 @@ public class GamePanel extends JPanel implements ActionListener {
             updateScore();
             startGame();
         } else {
-            System.exit(0);
+            // Lưu điểm số vào cơ sở dữ liệu khi người chơi kết thúc trò chơi
+            dataBase.addDataToDB(point); // Cập nhật điểm vào cơ sở dữ liệu
+            if (listener != null) listener.onGameEnd();
+
         }
     }
 
@@ -143,6 +158,6 @@ public class GamePanel extends JPanel implements ActionListener {
                 listener.onExitSelected();
             }
         }
+
     }
 }
-

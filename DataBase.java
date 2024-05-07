@@ -8,19 +8,18 @@ public class DataBase {
     private final String connectionUrl;
 
     public DataBase() {
-        this.connectionUrl = "jdbc:sqlserver://192.168.0.2:1433;databaseName=DUYTIEN;user=sa;password=123456789;trustServerCertificate=true";
+        this.connectionUrl = "jdbc:sqlserver://localhost;databaseName=Java;user=sa;password=123456789;trustServerCertificate=true";
     }
 
-    public void addDataToDB( int Score,String Times ) {
+    public void addDataToDB( int Score ) {
         try (Connection con = DriverManager.getConnection(this.connectionUrl);
              Statement stmt = con.createStatement()) {
 
             String SQL =
-                    "INSERT INTO player ( Score, Times) VALUES (" + Score + ", '" + Times + "')";
+                    "INSERT INTO Table_5 (Score) VALUES (" + Score + ")";
             stmt.executeUpdate(SQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.printf("thanh cong");
             e.printStackTrace();
         }
     }
@@ -29,15 +28,15 @@ public class DataBase {
         ArrayList<Information> arrInformation = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(this.connectionUrl);
              Statement stmt = con.createStatement()) {
-            String SQL = "SELECT * FROM player";
+            String SQL = "SELECT * FROM Table_5";
             ResultSet rs = stmt.executeQuery(SQL);
 
-            while (rs.next()) { //them thong tin
-                arrInformation.add(new Information(rs.getString("Score"),rs.getString("Times")));
-
+            while (rs.next()) {
+                arrInformation.add(new Information(rs.getString("Score")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         return arrInformation;
@@ -45,7 +44,7 @@ public class DataBase {
     public static void main(String[] args) {
 
         DataBase connect = new DataBase();
-        connect.addDataToDB(7,  "4");
+        //connect.addDataToDB(7);
         ArrayList<Information> arrInf = new  ArrayList<>();
         arrInf = connect.getDataFromDB();
         System.out.println(arrInf.size());

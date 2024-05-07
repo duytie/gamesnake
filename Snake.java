@@ -19,10 +19,18 @@ public class Snake {
     public void move() {
         Point newHead = new Point(body.get(0));
         switch (direction) {
-            case UP -> newHead.y--;
-            case DOWN -> newHead.y++;
-            case LEFT -> newHead.x--;
-            case RIGHT -> newHead.x++;
+            case UP:
+                newHead.y--;
+                break;
+            case DOWN:
+                newHead.y++;
+                break;
+            case LEFT:
+                newHead.x--;
+                break;
+            case RIGHT:
+                newHead.x++;
+                break;
         }
 
         body.add(0, newHead);
@@ -39,12 +47,14 @@ public class Snake {
         return point.x < 0 || point.x >= GamePanel.GRID_SIZE || point.y < 0 || point.y >= GamePanel.GRID_SIZE;
     }
 
-    public void grow() {
+
+  public void grow() {
         //Thêm độ dài con rắn sau khi ăn
         Point tail = body.get(body.size() - 1);
         body.add(new Point(tail));
     }
-    public void draw(Graphics g) {
+
+   public void draw(Graphics g) {
         // hinh danh rắn
         g.setColor(Color.WHITE);
         g.fillRect(body.get(0).x * GRID_SIZE, body.get(0).y * GRID_SIZE, GRID_SIZE, GRID_SIZE);
@@ -65,13 +75,13 @@ public class Snake {
         return body.get(0);
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
+    public Direction getDirection() {return direction;}
 
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
+
+    public boolean isMoving() {return false;}
 
 
 }

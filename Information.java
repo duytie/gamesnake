@@ -1,13 +1,17 @@
 package game;
 
 public class Information {
-    String time;
     String score;
-
-    public Information(String time, String score) {
-
-        this.time = time;
+    public Information(String score) {
         this.score = score;
     }
 
+
+    public String score() {
+        return null;
+    }
+
+    public String time() {
+        return null;
+    }
 }
