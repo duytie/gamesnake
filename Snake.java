@@ -32,7 +32,7 @@ public class Snake {
                 newHead.x++;
                 break;
         }
-        System.out.println("New head position: (" + newHead.x + ", " + newHead.y + ")");
+
         body.add(0, newHead);
         body.remove(body.size() - 1);
     }

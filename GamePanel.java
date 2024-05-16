@@ -11,9 +11,10 @@ public class GamePanel extends JPanel implements ActionListener {
     public static final int GRID_SIZE = 20;
     private Snake snake;
     private Food food;
-    private final Timer timer = new Timer(100, this::actionPerformed);
+    private Timer timer;
     private boolean isRunning;
     private int point;
+    private int speed;
 
     private GamePanelListener listener;
     private JButton exitButton;
@@ -43,43 +44,46 @@ public class GamePanel extends JPanel implements ActionListener {
         food = new Food();
         isRunning = false;
         point = 0;
+        speed = 100; // Khởi tạo tốc độ ban đầu của rắn
+
+        timer = new Timer(speed, this::actionPerformed); // Khởi tạo timer với tốc độ ban đầu
 
         dataBase = new DataBase(); // Khởi tạo đối tượng DataBase
 
         addKeyListener(new KeyAdapter() {
             @Override
-                public void keyPressed(KeyEvent e) {
-                    if (!snake.isMoving()) {
-                        int keyCode = e.getKeyCode();
-                        switch (keyCode) {
-                            case KeyEvent.VK_UP:
-                                if (snake.getDirection() != Direction.DOWN) {
-                                    snake.setDirection(Direction.UP);
-                                }
-                                break;
-                            case KeyEvent.VK_DOWN:
-                                if (snake.getDirection() != Direction.UP) {
-                                    snake.setDirection(Direction.DOWN);
-                                }
-                                break;
-                            case KeyEvent.VK_LEFT:
-                                if (snake.getDirection() != Direction.RIGHT) {
-                                    snake.setDirection(Direction.LEFT);
-                                }
-                                break;
-                            case KeyEvent.VK_RIGHT:
-                                if (snake.getDirection() != Direction.LEFT) {
-                                    snake.setDirection(Direction.RIGHT);
-                                }
-                                break;
-                            case KeyEvent.VK_SPACE:
-                                if (!isRunning) {
-                                    startGame();
-                                }
-                        }
-
+            public void keyPressed(KeyEvent e) {
+                if (!snake.isMoving()) {
+                    int keyCode = e.getKeyCode();
+                    switch (keyCode) {
+                        case KeyEvent.VK_UP:
+                            if (snake.getDirection() != Direction.DOWN) {
+                                snake.setDirection(Direction.UP);
+                            }
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            if (snake.getDirection() != Direction.UP) {
+                                snake.setDirection(Direction.DOWN);
+                            }
+                            break;
+                        case KeyEvent.VK_LEFT:
+                            if (snake.getDirection() != Direction.RIGHT) {
+                                snake.setDirection(Direction.LEFT);
+                            }
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            if (snake.getDirection() != Direction.LEFT) {
+                                snake.setDirection(Direction.RIGHT);
+                            }
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            if (!isRunning) {
+                                startGame();
+                            }
                     }
+
                 }
+            }
 
         });
     }
@@ -89,6 +93,8 @@ public class GamePanel extends JPanel implements ActionListener {
         snake.setDirection(Direction.RIGHT);
         isRunning = true;
         point = 0; // Đặt lại điểm số về 0
+        speed = 100; // Đặt lại tốc độ về giá trị ban đầu
+        timer.setDelay(speed); // Đặt lại tốc độ của timer
         updateScore();
         timer.start();
         requestFocus();
@@ -120,6 +126,10 @@ public class GamePanel extends JPanel implements ActionListener {
     private void increasePoint() {
         point++;
         updateScore();
+        if (point % 100 == 0) {
+            speed -= 100; // Tăng tốc độ (giảm độ trễ của timer)
+            timer.setDelay(Math.max(speed, 50)); // Đảm bảo tốc độ không giảm xuống dưới 50ms
+        }
     }
 
     @Override
@@ -136,8 +146,6 @@ public class GamePanel extends JPanel implements ActionListener {
         g.setColor(Color.BLACK);
         g.drawString("point: " + point, 10, 20);
         pointButton.paint(g);
-
-
     }
 
     public void setGamePanelListener(GamePanelListener listener) {
